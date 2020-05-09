@@ -34,7 +34,9 @@
             WHERE episodes.n_saison = regarde.n_saison
             AND episodes.n_episode = regarde.n_episode
             AND episodes.nom_serie = regarde.nom_serie
-            GROUP BY regarde.nom_serie, regarde.n_saison, regarde.n_episode");
+            GROUP BY regarde.nom_serie, regarde.n_saison, regarde.n_episode
+            ORDER BY nombre_de_spectateurs DESC, regarde.nom_serie, regarde.n_saison, regarde.n_episode
+            ");
             ?>
             <div style="overflow-y: scroll; height:350px;">
             <?php
@@ -44,7 +46,11 @@
                     $nom_serie=$tuple_episode['nom_serie'];
                     $num_saison=$tuple_episode['n_saison'];
                     $num_episode=$tuple_episode['n_episode'];
-                    echo $nombre." personnes ont regardé l'épisode ".$num_episode." de la saison ".$num_saison." de la série ".$nom_serie.".<br/>";   
+                    if ($nombre == 1){
+                    echo $nombre." personne a regardé l'épisode ".$num_episode." de la saison ".$num_saison." de la série ".$nom_serie.".<br/>"; 
+                }else{
+                    echo $nombre." personnes ont regardé l'épisode ".$num_episode." de la saison ".$num_saison." de la série ".$nom_serie.".<br/>"; 
+                }  
                 }
             }
             ?>
