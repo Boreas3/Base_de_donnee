@@ -21,7 +21,6 @@
     </head>
 	<body>
 
-
 <?php
     if(isset($_POST['retour']) AND ($_POST['retour'] == 'Page accueil')) { header("Location:index.php"); }
 	if(isset($_POST['nom_plateforme']) && !empty($_POST['nom_plateforme'])){
@@ -29,36 +28,43 @@
 	}
 ?>
     <form id="login-form" class="login-form" name="form1" action="" method="POST">
-	Quelle plateforme voulez-vous ?	
+	
+    Quelle plateforme voulez-vous ?
+    
 		<select name="nom_plateforme">
-			<option value="Amazon Prime Video" <?php if ($plateforme == "Amazon Prime Video")echo "selected" ?>>Amazon Prime Video</option>
-			<option value="Apple TV+" <?php if ($plateforme == "Apple TV+")echo "selected" ?>>Apple TV+</option>
-			<option value="Canal+" <?php if ($plateforme == "Canal+")echo "selected" ?>>Canal+</option>
-			<option value="Disney+" <?php if ($plateforme == "Disney+")echo "selected" ?>>Disney+</option>
-			<option value="Hulu" <?php if ($plateforme == "Hulu")echo "selected" ?>>Hulu</option>
-			<option value="Netflix" <?php if ($plateforme == "Netflix")echo "selected" ?>>Netflix</option>
-			<option value="Youtube Premium" <?php if ($plateforme == "Youtube Premium")echo "selected" ?>>Youtube Premium</option>
-		</select></br>
-        <button type="submit">Rechercher</button></br>		
-
+        <?php
+            $bdd= new PDO('mysql:host=localhost;dbname=group12;charset=utf8','group12','KS/7yNYP8l');
+			$request = $bdd->query("SELECT nom_platf FROM plateforme_streaming");
+            while ($datas =  $request->fetch(PDO::FETCH_ASSOC))
+            {
+        ?>	
+            <option><?php echo $datas["nom_platf"] ?></option>
+			<?php
+             }
+            ?>
+        </select></br>
+        <button type="submit">Rechercher</button></br>
 <?php
 	if(isset($_POST['nom_plateforme']) && !empty($_POST['nom_plateforme'])){
 		$plateforme = $_POST['nom_plateforme'];
 		$bdd= new PDO('mysql:host=localhost;dbname=group12;charset=utf8','group12','KS/7yNYP8l');
-		if (!$bdd) {
+		$bdd->exec("SET CHARACTER SET utf8");
+        if (!$bdd) {
 			die('Impossible de se connecter au serveur MySQL : '.mysql_error());
 		}
 		else{
 			$req_pays= $bdd->query("SELECT * FROM pays WHERE nom_platf='$plateforme'");
 			if($req_pays->rowCount()){
-                echo "<table>
-                        <thead>
-                            <tr>
-                                <th>Nom de la plateforme</th>
-                                <th>Pays</th>
-                            </tr>
-                        </thead>
-                    <tbody>";
+                ?>
+                <table>
+                    <thead>
+                        <tr style="text-align:left">
+                            <th>Nom de la plateforme</th>
+                            <th>Pays</th>
+                        </tr>
+                    </thead>
+                <tbody>
+                <?php
                 while ($tuple_pays = $req_pays->fetch()) {
                     echo "<tr><td>" .$tuple_pays['nom_platf']."</td>";
                     echo "<td>" .$tuple_pays['pays']."</td></tr>";
@@ -70,7 +76,6 @@
 		}
 	}
 ?>
-	
     <br />
         <input type="submit" name="retour" value="Page accueil"/><br />
     </form>

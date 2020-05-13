@@ -1,0 +1,15 @@
+graph TD
+	A(index.php) --> B(config.php)
+	A --> C
+	B --> D(sql_pwd.php)
+	D --> E(verif_pwd.php)
+	E --> C(login.php)
+
+	B --> F(sql_bdd.php)
+	F --> C
+	C --> H[affichage.php]
+	C --> I[pays.php]
+	C --> G[episode.php]
+	G --> L[acteur.php]
+	C --> J[utilisateur.php]
+	C --> K[serie.php]				

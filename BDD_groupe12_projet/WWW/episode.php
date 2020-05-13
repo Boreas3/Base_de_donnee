@@ -20,6 +20,7 @@
         <script src="js/main.js"></script>
     </head>
 	<body>
+
 <?php
 	if(isset($_POST['retour']) AND ($_POST['retour'] == 'Page accueil')) { header("Location:index.php"); }
 	if(isset($_POST['acteur']) AND ($_POST['acteur'] == 'Ajouter les acteurs')) { header("Location:acteur.php"); } 
@@ -28,36 +29,47 @@
 
 <form id="login-form" class="login-form" name="form1" action="" method="POST">
 	Ajouter un nouvel épisode : <br/>
-		Nom de la série : <input type='text' name='nom_serie'><br/>
+		Nom de la série : 
+        <select name="nom_serie">
+        <?php
+            $bdd= new PDO('mysql:host=localhost;dbname=group12;charset=utf8','group12','KS/7yNYP8l');
+			$bdd->exec("SET CHARACTER SET utf8");
+            $request = $bdd->query("SELECT nom_serie FROM serie");
+            while ($datas =  $request->fetch(PDO::FETCH_ASSOC))
+            {
+        ?>	
+            <option><?php echo $datas["nom_serie"] ?></option>
+			<?php
+             }
+            ?>
+        </select></br>
 		Numéro de saison : <input type='number' name='num_saison'><br/>
 		Numéro d'épisode : <input type='number' name='num_episode'><br/>
 		Durée : <input type='text' name='duree'><br/>
 		Synopsis : <input type='text' name='synopsis'><br/>
-		Combien d'acteurs jouent dans cet épisode ? <input type='number' min='0' name='nb_acteur'><br/>
-		<button type='submit' name='ajouter'>Ajouter</button><br/>            
-
-			
+		<button type='submit' name='ajouter'>Ajouter</button><br/>	
 <?php
-	if(isset($_POST['nom_serie']) && !empty($_POST['nom_serie']) && isset($_POST['num_saison']) && !empty($_POST['num_saison']) && isset($_POST['num_episode']) && !empty($_POST['num_episode']) && isset($_POST['duree']) && !empty($_POST['duree']) && isset($_POST['synopsis']) && !empty($_POST['synopsis'])
-	&& isset($_POST['nb_acteur']) && !empty($_POST['nb_acteur'])){
-		$_SESSION['nom_serie']= $_POST['nom_serie'];
+	if(isset($_POST['nom_serie']) && !empty($_POST['nom_serie']) && isset($_POST['num_saison']) && !empty($_POST['num_saison']) && isset($_POST['num_episode']) && !empty($_POST['num_episode']) && isset($_POST['duree']) && !empty($_POST['duree']) && isset($_POST['synopsis']) && !empty($_POST['synopsis'])){
+        $_SESSION['nom_serie']= $_POST['nom_serie'];
 		$_SESSION['num_saison']= $_POST['num_saison'];
 		$_SESSION['num_episode'] = $_POST['num_episode'];
-		$_SESSION['nb_acteur']= $_POST['nb_acteur'];
+		$_SESSION['duree'] = $_POST['duree'];
+		$_SESSION['synopsis'] = $_POST['synopsis'];
 		$nom_serie = $_SESSION['nom_serie'];
 		$num_saison = $_SESSION['num_saison'];
 		$num_episode = $_SESSION['num_episode'];
-		$duree = $_POST['duree'];
-		$synopsis = $_POST['synopsis'];
+		$duree = $_SESSION['duree'];
+		$synopsis = $_SESSION['synopsis'];
 		$bdd= new PDO('mysql:host=localhost;dbname=group12;charset=utf8','group12','KS/7yNYP8l');
-		if (!$bdd) {
+		$bdd->exec("SET CHARACTER SET utf8");
+        if (!$bdd) {
 			die('Impossible de se connecter au serveur MySQL : '.mysql_error());
 		}
 		else{
 			$req_episode= $bdd->query("INSERT INTO episodes VALUES ('$num_saison', '$num_episode', '$duree', '$synopsis', '$nom_serie')");
 			if ($req_episode) {
 				echo "L'épisode a bien été ajouté. Veuillez maintenant ajouter les acteurs.<br/>";
-				echo "<input type='submit' name='acteur' value='Ajouter les acteurs'/>";
+				echo "<input type='submit' name='acteur' value='Ajouter les acteurs'/><br />";
 			}
 			else {
 				echo "La série n'a pas été ajoutée.";
@@ -65,7 +77,7 @@
 		}
 	}
 ?>
-        <input type="submit" name="retour" value="Page accueil"/><br />
+        <br/><input type="submit" name="retour" value="Page accueil"/><br />
     </form>
     </body>
 </html>

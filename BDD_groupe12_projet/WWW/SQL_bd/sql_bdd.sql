@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS disponible_sur;
 CREATE TABLE IF NOT EXISTS serie
 (
     nom_serie varchar (32) not null,
@@ -42,7 +41,7 @@ CREATE TABLE IF NOT EXISTS personne
     numero int not null,
     nom varchar(64),
     prenom varchar (64),
-    date_naissance varchar(100),
+    date_naissance date,
     primary key (numero)
 ) ENGINE=InnoDB;
 LOAD DATA LOCAL INFILE './contenu_tables/personne.csv' INTO TABLE `personne` FIELDS TERMINATED BY ';' ENCLOSED BY '"' ESCAPED BY '\\' LINES TERMINATED BY '\r\n';

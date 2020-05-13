@@ -1,3 +1,4 @@
+
 <?php
 	include ("verif_pwd.php");
 ?>

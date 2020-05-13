@@ -339,42 +339,4 @@
        line-height: 50px;
        padding-left:30px;
        color: #555555;
-   }
-.tabs
-{position: relative;   
-min-height: 200px;
-clear: both;
-margin: 25px 0;}
-
-.tab
-{float: left;}
-
-.tab label
-{background: #eee; 
-padding: 10px; 
-border: 1px solid #ccc; 
-margin-left: -1px;
-cursor:pointer;
-position: relative;
-left: 1px; }
-
-.tab [type=radio]
-{display: none;}
-
-.content {position: absolute;
-top: 28px;
-left: 0;
-background: white;
-height:100px;
-right: 0;
-bottom: 0;
-padding: 20px;
-border: 1px solid #ccc;}
-
-[type=radio]:checked ~ label
-{background: white;
-border-bottom: 1px solid white;
-z-index: 2;}
-
-[type=radio]:checked ~ label ~ .content
-{z-index: 1;}
+   }	

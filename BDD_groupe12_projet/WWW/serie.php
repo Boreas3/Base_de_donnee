@@ -30,8 +30,9 @@
 		}
 		else{
 			$req_episode= $bdd->query("SELECT regarde.n_saison, regarde.n_episode, regarde.nom_serie, COUNT( * ) AS nombre_de_spectateurs
-            FROM episodes, regarde
-            WHERE episodes.n_saison = regarde.n_saison
+            FROM regarde
+            INNER JOIN episodes
+            ON episodes.n_saison = regarde.n_saison
             AND episodes.n_episode = regarde.n_episode
             AND episodes.nom_serie = regarde.nom_serie
             GROUP BY regarde.nom_serie, regarde.n_saison, regarde.n_episode
